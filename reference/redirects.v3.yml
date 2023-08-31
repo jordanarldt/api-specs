@@ -20,6 +20,7 @@ security:
   - X-Auth-Token: []
 tags:
   - name: Redirects
+  - name: Redirect Import/Export
 paths:
   '/storefront/redirects':
     parameters:
@@ -155,6 +156,217 @@ paths:
         '204':
           description: No Content
           content: {}
+  '/storefront/redirects/imex/jobs':
+    parameters:
+      - $ref: '#/components/parameters/Accept'
+    get:
+      tags:
+        - Redirect Import/Export
+      summary: Get Redirect Import/Export Jobs
+      description: Returns a collection of the store's 301 redirects across all sites.
+      operationId: GetRedirectImportExportJobs
+      parameters:
+        - name: id
+          in: query
+          description: Filters results by redirect import/export job id.
+          style: form
+          explode: false
+          schema:
+            type: string
+        - name: type
+          in: query
+          description: Filters results by redirect import/export job type.
+          style: form
+          explode: false
+          schema:
+            $ref: '#/components/schemas/ImportExportJobType'
+        - name: status
+          in: query
+          description: Filters results by redirect import/export job status.
+          style: form
+          explode: false
+          schema:
+            $ref: '#/components/schemas/ImportExportJobStatus'
+        - name: limit
+          in: query
+          description: Controls the number of items to return per page.
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: Specifies the page number in a limited (paginated) list of items. Used to paginate large collections.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/301RedirectImportExportJobRead'
+                  meta:
+                    $ref: '#/components/schemas/MetaPaginationObject'
+  '/storefront/redirects/imex/export':
+    parameters:
+      - $ref: '#/components/parameters/Accept'
+    post:
+      tags:
+        - Redirect Import/Export
+      summary: Create Redirects Export
+      description: Creates a new 301 Redirects Export job.
+      operationId: CreateRedirectExportJob
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                site_id:
+                  type: integer
+                  nullable: true
+                  default: null
+                  description: The site ID to export redirects for. If not provided, all redirects for all sites will be exported.
+                redirect_ids:
+                  type: array
+                  items:
+                    type: integer
+                  default: []
+                  description: List of redirect IDs to export. If not provided, all redirects for the given site selection will be exported.
+              description: 'Data necessary to create a new 301 Redirects Export job.'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: ab1c2de3-f4gh-5678-i90j-klm12n345o67
+                    default: empty
+        '429':
+          description: Your store already has an active import or export job running.
+        '409':
+          description: There are no redirects to export from your store with the provided parameters.
+  '/storefront/redirects/imex/import':
+    parameters:
+      - $ref: '#/components/parameters/Accept'
+    post:
+      tags:
+        - Redirect Import/Export
+      summary: Create Redirects Import
+      description: Creates a new 301 Redirects Import job.
+      operationId: CreateRedirectImportJob
+      parameters:
+        - $ref: '#/components/parameters/ContentTypeFormData'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                import_file:
+                  description: The CSV file containing 301 Redirects to be imported.
+                  type: string
+                  format: binary
+              required:
+                - import_file
+              description: 'Data necessary to create a new 301 Redirects Import job.'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: ab1c2de3-f4gh-5678-i90j-klm12n345o67
+                    default: empty
+        '400':
+          description: The provided form data was invalid or the file is not a CSV.
+        '413':
+          description: The provided file is too large. The maximum file size is 20MB.
+        '429':
+          description: Your store already has an active import or export job running.
+  '/storefront/redirects/imex/export/{uuid}/events':
+    parameters:
+      - $ref: '#/components/parameters/AcceptEventStream'
+      - $ref: '#/components/parameters/ImportExportIdParam'
+    get:
+      tags:
+        - Redirect Import/Export
+      summary: Get Redirect Export Events
+      description: Opens an event stream to receive live updates from an export job.
+      operationId: GetRedirectExportEvents
+      responses:
+        '200':
+          description: Stream of export events
+          content:
+            text/event-stream:
+              schema:
+                type: string
+                example: |
+                  event: message
+                  data: {"job_id":"cfccdd6e-956e-4484-8cc2-a610db26bad9","status":"complete","completed_items":100,"total_items":100}
+        '404':
+          description: The provided export job ID does not exist.
+  '/storefront/redirects/imex/import/{uuid}/events':
+    parameters:
+      - $ref: '#/components/parameters/AcceptEventStream'
+      - $ref: '#/components/parameters/ImportExportIdParam'
+    get:
+      tags:
+        - Redirect Import/Export
+      summary: Get Redirect Import Events
+      description: Opens an event stream to receive live updates from an import job.
+      operationId: GetRedirectImportEvents
+      responses:
+        '200':
+          description: Stream of import events
+          content:
+            text/event-stream:
+              schema:
+                type: string
+                example: |
+                  event: message
+                  data: {{"job_id":"a4abaf59-9c25-4f37-a09d-66e6054229a1","status":"complete","completed_items":100,"failed_items":100,"total_items":93,"errors":[]}
+        '404':
+          description: The provided import job ID does not exist.
+  '/storefront/redirects/imex/export/{uuid}/download':
+    parameters:
+      - $ref: '#/components/parameters/ContentTypeCsv'
+      - $ref: '#/components/parameters/ImportExportIdParam'
+    get:
+      tags:
+        - Redirect Import/Export
+      summary: Download Redirect Export
+      description: Downloads the CSV file containing the results of an export job.
+      operationId: DownloadRedirectExport
+      responses:
+        '200':
+          description: The exported redirects CSV data
+          content:
+            text/csv:
+              schema:
+                type: string
+                format: binary
+                example: |
+                  Domain,Old Path,New URL/Path,Target Type,Target ID
+                  your-store.com,/old-path,/redirect-target,,
+        '404':
+          description: The requested export download does not exist.
 components:
   parameters:
     Accept:
@@ -165,6 +377,14 @@ components:
       schema:
         type: string
         default: 'application/json'
+    AcceptEventStream:
+      name: Accept
+      in: header
+      required: true
+      description: 'The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.'
+      schema:
+        type: string
+        default: 'text/event-stream'
     ContentType:
       name: Content-Type
       in: header
@@ -173,6 +393,29 @@ components:
       schema:
         type: string
         default: 'application/json'
+    ContentTypeFormData:
+      name: Content-Type
+      in: header
+      required: true
+      description: 'The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.'
+      schema:
+        type: string
+        default: 'multipart/form-data'
+    ContentTypeCsv:
+      name: Content-Type
+      in: header
+      required: true
+      description: 'The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.'
+      schema:
+        type: string
+        default: 'text/csv'
+    ImportExportIdParam:
+      name: uuid
+      description: The import/export job identifier.
+      in: path
+      required: true
+      schema:
+        type: string
   schemas:
     Error:
       type: object
@@ -240,6 +483,55 @@ components:
           description: Full destination URL for the redirect. Must be explicitly included via URL parameter.
           format: uri
           example: 'https://store-domain.com/new-url'
+    ImportExportJobType:
+      type: string
+      enum:
+        - import
+        - export
+    ImportExportJobStatus:
+      type: string
+      enum:
+        - new
+        - working
+        - complete
+        - aborted
+        - failed
+    ImportErrors:
+      type: array
+      items:
+        type: object
+        description: 'Detail of an error that occurred during an import job.'
+        x-internal: false
+        properties:
+          row:
+            type: integer
+          message:
+            type: string
+    301RedirectImportExportJobRead:
+      type: object
+      description: 'Full detail of a Redirect Import/Export job.'
+      x-internal: false
+      properties:
+        id:
+          type: string
+        type:
+          $ref: '#/components/schemas/ImportExportJobType'
+        status:
+          $ref: '#/components/schemas/ImportExportJobStatus'
+        completed_items:
+          type: integer
+        failed_items:
+          type: integer
+        total_items:
+          type: integer
+        errors:
+          $ref: '#/components/schemas/ImportErrors'
+        created_at:
+          description: 'The date-time that the import/export job was created, formatted as an [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt) string.'
+          example: '2022-01-04T04:15:50.000Z'
+        completed_at:
+          description: 'The date-time that the import/export job was completed, formatted as an [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt) string.'
+          example: '2022-01-04T04:15:50.000Z'
     MetaPaginationObject:
       type: object
       properties:
