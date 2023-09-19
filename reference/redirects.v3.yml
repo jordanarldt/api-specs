@@ -164,7 +164,7 @@ paths:
         - Redirect Import-Export
       summary: Get Redirect Import/Export Jobs
       description: Returns a collection of the storeʼs 301 redirects across all sites.
-      operationId: GetRedirectImportExportJobs
+      operationId: getRedirectImportExportJobs
       parameters:
         - name: id
           in: query
@@ -219,7 +219,7 @@ paths:
         - Redirect Import-Export
       summary: Create Redirects Export
       description: Creates a new 301 Redirects Export job.
-      operationId: CreateRedirectExportJob
+      operationId: createRedirectExportJob
       parameters:
         - $ref: '#/components/parameters/ContentType'
       requestBody:
@@ -265,7 +265,7 @@ paths:
         - Redirect Import-Export
       summary: Create Redirects Import
       description: Creates a new 301 Redirects Import job.
-      operationId: CreateRedirectImportJob
+      operationId: createRedirectImportJob
       parameters:
         - $ref: '#/components/parameters/ContentTypeFormData'
       requestBody:
@@ -309,7 +309,7 @@ paths:
         - Redirect Import-Export
       summary: Get Redirect Export Events
       description: Opens an event stream to receive live updates from an export job.
-      operationId: GetRedirectExportEvents
+      operationId: getRedirectExportEvents
       responses:
         '200':
           description: Stream of export events
@@ -331,7 +331,7 @@ paths:
         - Redirect Import-Export
       summary: Get Redirect Import Events
       description: Opens an event stream to receive live updates from an import job.
-      operationId: GetRedirectImportEvents
+      operationId: getRedirectImportEvents
       responses:
         '200':
           description: Stream of import events
@@ -353,7 +353,7 @@ paths:
         - Redirect Import-Export
       summary: Download Redirect Export
       description: Downloads the CSV file containing the results of an export job.
-      operationId: DownloadRedirectExport
+      operationId: getRedirectExportDownload
       responses:
         '200':
           description: The exported redirects CSV data
