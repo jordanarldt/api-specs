@@ -162,7 +162,7 @@ paths:
     get:
       tags:
         - Redirect Import-Export
-      summary: Get Redirect Import/Export Jobs
+      summary: Get Redirect Import-Export Jobs
       description: Returns a collection of the storeʼs 301 redirects across all sites.
       operationId: getRedirectImportExportJobs
       parameters:
@@ -217,7 +217,7 @@ paths:
     post:
       tags:
         - Redirect Import-Export
-      summary: Create Redirects Export
+      summary: Create Redirects Export Job
       description: Creates a new 301 Redirects Export job.
       operationId: createRedirectExportJob
       parameters:
@@ -263,7 +263,7 @@ paths:
     post:
       tags:
         - Redirect Import-Export
-      summary: Create Redirects Import
+      summary: Create Redirects Import Job
       description: Creates a new 301 Redirects Import job.
       operationId: createRedirectImportJob
       parameters:
@@ -307,7 +307,7 @@ paths:
     get:
       tags:
         - Redirect Import-Export
-      summary: Get Redirect Export Events
+      summary: Open Redirect Export Event Stream
       description: Opens an event stream to receive live updates from an export job.
       operationId: getRedirectExportEvents
       responses:
@@ -329,7 +329,7 @@ paths:
     get:
       tags:
         - Redirect Import-Export
-      summary: Get Redirect Import Events
+      summary: Open Redirect Import Event Stream
       description: Opens an event stream to receive live updates from an import job.
       operationId: getRedirectImportEvents
       responses:
