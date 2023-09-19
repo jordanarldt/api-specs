@@ -310,14 +310,12 @@ paths:
       operationId: getRedirectExportEvents
       responses:
         '200':
-          description: Stream of export events
+          description: Stream of export events. The `data` attribute is stringified JSON.
           content:
             text/event-stream:
               schema:
                 type: string
-                example: |
-                  event: message
-                  data: {"job_id":"cfccdd6e-956e-4484-8cc2-a610db26bad9","status":"complete","completed_items":100,"total_items":100}
+                example: 'event: message\ndata: {"job_id":"cfccdd6e-956e-4484-8cc2-a610db26bad9","status":"complete","completed_items":100,"total_items":100}\n\n'
         '404':
           description: The provided export job ID does not exist.
   '/storefront/redirects/imex/import/{uuid}/events':
@@ -332,14 +330,12 @@ paths:
       operationId: getRedirectImportEvents
       responses:
         '200':
-          description: Stream of import events
+          description: Stream of import events. The `data` attribute is stringified JSON.
           content:
             text/event-stream:
               schema:
                 type: string
-                example: |
-                  event: message
-                  data: {{"job_id":"a4abaf59-9c25-4f37-a09d-66e6054229a1","status":"complete","completed_items":100,"failed_items":100,"total_items":93,"errors":[]}
+                example: 'event: message\ndata: {{"job_id":"a4abaf59-9c25-4f37-a09d-66e6054229a1","status":"complete","completed_items":100,"failed_items":100,"total_items":93,"errors":[]}\n\n'
         '404':
           description: The provided import job ID does not exist.
   '/storefront/redirects/imex/export/{uuid}/download':
