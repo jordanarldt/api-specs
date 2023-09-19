@@ -189,9 +189,10 @@ paths:
             $ref: '#/components/schemas/ImportExportJobStatus'
         - name: limit
           in: query
-          description: Determines the number of items returned per page.
+          description: Determines the number of items returned per page. The default is 10 items per page.
           schema:
             type: integer
+            default: 10
         - name: page
           in: query
           description: Specifies the page number to return when the number of items returned exceeds the page limit. Used to paginate large collections.
