@@ -29,7 +29,7 @@ paths:
       tags:
         - Redirects
       summary: Get Redirects
-      description: Returns a collection of the store's 301 redirects across all sites.
+      description: Returns a collection of the storeʼs 301 redirects across all sites.
       operationId: GetRedirects
       parameters:
         - name: site_id
@@ -163,12 +163,12 @@ paths:
       tags:
         - Redirect Import/Export
       summary: Get Redirect Import/Export Jobs
-      description: Returns a collection of the store's 301 redirects across all sites.
+      description: Returns a collection of the storeʼs 301 redirects across all sites.
       operationId: GetRedirectImportExportJobs
       parameters:
         - name: id
           in: query
-          description: Filters results by redirect import/export job id.
+          description: Filters results by redirect import/export job ID.
           style: form
           explode: false
           schema:
@@ -462,11 +462,11 @@ components:
           type: integer
         to:
           $ref: '#/components/schemas/RedirectTo'
-      description: 'Data necessary to create or update a redirect. If there’s a conflict on the from_path and site_id, the redirect will be overwritten with new data.'
+      description: Data necessary to create or update a redirect. If there’s a conflict on the from_path and site_id, the redirect will be overwritten with new data.
       x-internal: false
     301RedirectRead:
       type: object
-      description: 'Full detail of a Redirect, optionally including the full destination URL.'
+      description: Full detail of a Redirect, optionally including the full destination URL.
       x-internal: false
       properties:
         id:
