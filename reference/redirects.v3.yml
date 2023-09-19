@@ -252,7 +252,6 @@ paths:
                   id:
                     type: string
                     example: ab1c2de3-f4gh-5678-i90j-klm12n345o67
-                    default: empty
         '429':
           description: Your store already has an active import or export job running.
         '409':
@@ -293,7 +292,6 @@ paths:
                   id:
                     type: string
                     example: ab1c2de3-f4gh-5678-i90j-klm12n345o67
-                    default: empty
         '400':
           description: The provided form data was invalid or the file is not a CSV.
         '413':
@@ -424,31 +422,26 @@ components:
           type: integer
         message:
           type: string
-      x-internal: false
     ErrorResponse400:
       type: object
       properties:
         schema:
           $ref: '#/components/schemas/Error'
-      x-internal: false
     ErrorResponse404:
       type: object
       properties:
         schema:
           $ref: '#/components/schemas/Error'
-      x-internal: false
     ErrorResponse409:
       type: object
       properties:
         schema:
           $ref: '#/components/schemas/Error'
-      x-internal: false
     ErrorResponse422:
       type: object
       properties:
         schema:
           $ref: '#/components/schemas/Error'
-      x-internal: false
     301RedirectUpsert:
       required:
         - from_path
@@ -463,11 +456,9 @@ components:
         to:
           $ref: '#/components/schemas/RedirectTo'
       description: Data necessary to create or update a redirect. If there’s a conflict on the from_path and site_id, the redirect will be overwritten with new data.
-      x-internal: false
     301RedirectRead:
       type: object
       description: Full detail of a Redirect, optionally including the full destination URL.
-      x-internal: false
       properties:
         id:
           type: integer
@@ -501,7 +492,6 @@ components:
       items:
         type: object
         description: 'Detail of an error that occurred during an import job.'
-        x-internal: false
         properties:
           row:
             type: integer
@@ -510,7 +500,6 @@ components:
     301RedirectImportExportJobRead:
       type: object
       description: 'Full detail of a Redirect Import/Export job.'
-      x-internal: false
       properties:
         id:
           type: string
@@ -567,7 +556,6 @@ components:
                 current:
                   type: string
                   example: '?limit=5&page=1'
-      x-internal: false
     RedirectTo:
       title: RedirectTo
       type: object
@@ -587,13 +575,11 @@ components:
           maxLength: 2048
           type: string
           example: /new-url/
-      x-internal: false
     DetailedErrors:
       type: object
       properties: {}
       additionalProperties: true
       title: Detailed Errors
-      x-internal: false
     BaseError:
       type: object
       properties:
@@ -611,7 +597,6 @@ components:
           type: string
       description: |
         Error payload for the BigCommerce API.
-      x-internal: false
     ErrorResponse:
       allOf:
         - $ref: '#/components/schemas/BaseError'
@@ -619,7 +604,6 @@ components:
           properties:
             errors:
               $ref: '#/components/schemas/DetailedErrors'
-      x-internal: false
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token
