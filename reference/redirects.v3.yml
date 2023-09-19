@@ -275,9 +275,24 @@ paths:
               type: object
               properties:
                 import_file:
-                  description: A CSV file containing a list of Redirects to be imported.
+                  description: |-
+                    A CSV file containing a list of Redirects to be imported.
+
+                    The headers must be defined as follows:
+
+                    `Domain,Old Path,New URL/Path,Target Type,Target ID`
+
+                    Not every line will have a value for every column.
                   type: string
                   format: binary
+                  example: |-
+                    Domain,Old Path,New URL/Path,Target Type,Target ID 
+                    store.example.com,/old-path,/new-manual-path,, 
+                    store.example.com,/old-product,,Product,12 
+                    store.example.com,/old-brand,,Brand,34 
+                    store.example.com,/old-category,,Category,56 
+                    store.example.com,/old-page,,Page,78 
+                    store.example.com,/old-post,,Post,90
               required:
                 - import_file
               description: Data necessary to create a new 301 Redirects import job.
@@ -359,7 +374,7 @@ paths:
                 format: binary
                 example: |
                   Domain,Old Path,New URL/Path,Target Type,Target ID
-                  your-store.com,/old-path,/redirect-target,,
+                  store.example.com,/old-path,/redirect-target,,
         '404':
           description: The requested export download does not exist.
 components:
