@@ -875,6 +875,7 @@ paths:
 
         **Limits**
         - 250 characters product name length.
+        - A product can have up to 1000 images. Each image file or image uploaded by URL can be up to 8 MB.
 
         **Usage Notes**
         * This endpoint accepts a `video` array. To create a product video that accepts a `video` object, see [Create a Product Video](/docs/rest-catalog/products/videos#create-a-product-video) for information.
@@ -1484,6 +1485,9 @@ paths:
       description: |
         Updates a *Product*.
 
+        **Limits**
+        - A product can have up to 1000 images. Each image file or image uploaded by URL can be up to 8 MB.
+
         **Read-Only Fields**
         - id
         - date_created
@@ -1986,9 +1990,10 @@ paths:
 
         **Usage Notes**
         - `image_url` - `255` character limit
-        - For file uploads, use the `multipart/form-data` media type
-        - Only one image at a time can be created
+        - For file uploads, use the `multipart/form-data` media type.
+        - You can create only one image at a time. A product can have up to 1000 images.
         - Supported image file types are BMP, GIF, JPEG, PNG, WBMP, XBM, and WEBP.
+        - Each image file or image uploaded by URL can be up to 8 MB.
       operationId: createProductImage
       parameters:
         - $ref: '#/components/parameters/ContentType'
@@ -2060,7 +2065,7 @@ paths:
                     image_file:
                       type: string
                       description: |
-                        Must be sent as a multipart/form-data field in the request body. Limit of 1MB per file.
+                        Must be sent as a multipart/form-data field in the request body. Limit of 8 MB per file.
           multipart/form-data:
             schema:
               title: Product Image Post
@@ -2131,7 +2136,7 @@ paths:
                     image_file:
                       type: string
                       description: |
-                        Must be sent as a multipart/form-data field in the request body. Limit of 1MB per file.
+                        Must be sent as a multipart/form-data field in the request body. Limit of 8 MB per file.
         required: true
       responses:
         '200':
@@ -2334,14 +2339,6 @@ paths:
       description: Returns a single *Product Image*. Optional parameters can be passed in.
       operationId: getProductImageById
       parameters:
-        - name: image_id
-          in: path
-          description: |
-            The ID of the `Image` that is being operated on.
-          required: true
-          schema:
-            type: integer
-
         - name: include_fields
           in: query
           description: 'Fields to include, in a comma-separated list. The ID and the specified fields will be returned.'
@@ -2411,17 +2408,11 @@ paths:
 
         **Usage Notes**
         - `image_url` - `255` character limit
+        - Each image file or image uploaded by URL can be up to 8 MB.
         - For file uploads, send a POST request using the `multipart/form-data` media type
       operationId: updateProductImage
       parameters:
         - $ref: '#/components/parameters/ContentType'
-        - name: image_id
-          in: path
-          description: |
-            The ID of the `Image` that is being operated on.
-          required: true
-          schema:
-            type: integer
       requestBody:
         content:
           application/json:
@@ -2601,14 +2592,6 @@ paths:
       summary: Delete a Product Image
       description: Deletes a *Product Image*.
       operationId: deleteProductImage
-      parameters:
-        - name: image_id
-          in: path
-          description: |
-            The ID of the `Image` that is being operated on.
-          required: true
-          schema:
-            type: integer
       responses:
         '204':
           description: ''
@@ -2878,13 +2861,6 @@ paths:
       description: Returns a single *Product Video*. Optional parameters can be passed in.
       operationId: getProductVideoById
       parameters:
-        - name: id
-          in: path
-          description: The BigCommerce ID of the `Video`
-          required: true
-          schema:
-            type: integer
-
         - name: include_fields
           in: query
           description: 'Fields to include, in a comma-separated list. The ID and the specified fields will be returned.'
@@ -2952,12 +2928,6 @@ paths:
       operationId: updateProductVideo
       parameters:
         - $ref: '#/components/parameters/ContentType'
-        - name: id
-          in: path
-          description: The BigCommerce ID of the `Video`
-          required: true
-          schema:
-            type: integer
       requestBody:
         content:
           application/json:
@@ -3098,13 +3068,6 @@ paths:
       summary: Delete a Product Video
       description: Deletes a *Product Video*.
       operationId: deleteProductVideo
-      parameters:
-        - name: id
-          in: path
-          description: The BigCommerce ID of the `Video`
-          required: true
-          schema:
-            type: integer
       responses:
         '204':
           description: ''
@@ -3563,14 +3526,6 @@ paths:
       description: Returns a single *Complex Rule*. Optional parameters can be passed in.
       operationId: getComplexRuleById
       parameters:
-        - name: complex_rule_id
-          in: path
-          description: |
-            The ID of the `ComplexRule`.
-          required: true
-          schema:
-            type: integer
-
         - name: include_fields
           in: query
           description: 'Fields to include, in a comma-separated list. The ID and the specified fields will be returned.'
@@ -3764,14 +3719,6 @@ paths:
       operationId: updateComplexRule
       parameters:
         - $ref: '#/components/parameters/ContentType'
-        - name: complex_rule_id
-          in: path
-          description: |
-            The ID of the `ComplexRule`.
-          required: true
-          schema:
-            type: integer
-
       requestBody:
         content:
           application/json:
@@ -4095,14 +4042,6 @@ paths:
       summary: Delete a Complex Rule
       description: Deletes a product *Complex Rule*.
       operationId: deleteComplexRuleById
-      parameters:
-        - name: complex_rule_id
-          in: path
-          description: |
-            The ID of the `ComplexRule`.
-          required: true
-          schema:
-            type: integer
       responses:
         '204':
           description: ''
@@ -4358,14 +4297,6 @@ paths:
       description: Returns a single *Custom Field*. Optional parameters can be passed in.
       operationId: getCustomFieldById
       parameters:
-        - name: custom_field_id
-          in: path
-          description: |
-            The ID of the `CustomField`.
-          required: true
-          schema:
-            type: integer
-
         - name: include_fields
           in: query
           description: 'Fields to include, in a comma-separated list. The ID and the specified fields will be returned.'
@@ -4430,13 +4361,6 @@ paths:
       operationId: updateCustomField
       parameters:
         - $ref: '#/components/parameters/ContentType'
-        - name: custom_field_id
-          in: path
-          description: |
-            The ID of the `CustomField`.
-          required: true
-          schema:
-            type: integer
       requestBody:
         content:
           application/json:
@@ -4577,14 +4501,6 @@ paths:
       summary: Delete a Custom Field
       description: Deletes a product *Custom Field*.
       operationId: deleteCustomFieldById
-      parameters:
-        - name: custom_field_id
-          in: path
-          description: |
-            The ID of the `CustomField`.
-          required: true
-          schema:
-            type: integer
       responses:
         '204':
           description: '`204 No Content`. Action has been enacted and no further information is to be supplied. `null` is returned.'
@@ -4860,14 +4776,6 @@ paths:
       description: Returns a single *Bulk Pricing Rule*. Optional parameters can be passed in.
       operationId: getBulkPricingRuleById
       parameters:
-        - name: bulk_pricing_rule_id
-          in: path
-          description: |
-            The ID of the `BulkPricingRule`.
-          required: true
-          schema:
-            type: integer
-
         - name: include_fields
           in: query
           description: 'Fields to include, in a comma-separated list. The ID and the specified fields will be returned.'
@@ -4943,13 +4851,6 @@ paths:
       operationId: updateBulkPricingRule
       parameters:
         - $ref: '#/components/parameters/ContentType'
-        - name: bulk_pricing_rule_id
-          in: path
-          description: |
-            The ID of the `BulkPricingRule`.
-          required: true
-          schema:
-            type: integer
       requestBody:
         content:
           application/json:
@@ -5112,14 +5013,6 @@ paths:
       summary: Delete a Bulk Pricing Rule
       description: Deletes a *Bulk Pricing Rule*.
       operationId: deleteBulkPricingRuleById
-      parameters:
-        - name: bulk_pricing_rule_id
-          in: path
-          description: |
-            The ID of the `BulkPricingRule`.
-          required: true
-          schema:
-            type: integer
       responses:
         '204':
           description: ''
@@ -5367,14 +5260,6 @@ paths:
       description: Returns a single *Product Metafield*. Optional parameters can be passed in.
       operationId: getProductMetafieldByProductId
       parameters:
-        - name: metafield_id
-          in: path
-          description: |
-            The ID of the `Metafield`.
-          required: true
-          schema:
-            type: integer
-
         - name: include_fields
           in: query
           description: 'Fields to include, in a comma-separated list. The ID and the specified fields will be returned.'
@@ -5440,13 +5325,6 @@ paths:
       operationId: updateProductMetafield
       parameters:
         - $ref: '#/components/parameters/ContentType'
-        - name: metafield_id
-          in: path
-          description: |
-            The ID of the `Metafield`.
-          required: true
-          schema:
-            type: integer
       requestBody:
         content:
           application/json:
@@ -5507,14 +5385,6 @@ paths:
       summary: Delete a Product Metafield
       description: Deletes a *Product Metafield*.
       operationId: deleteProductMetafieldById
-      parameters:
-        - name: metafield_id
-          in: path
-          description: |
-            The ID of the `Metafield`.
-          required: true
-          schema:
-            type: integer
       responses:
         '204':
           description: ''
@@ -5842,14 +5712,6 @@ paths:
       description: Returns a single *Product Review*. Optional parameters maybe passed in.
       operationId: getProductReviewById
       parameters:
-        - name: review_id
-          in: path
-          description: |
-            The ID of the `review` that is being operated on.
-          required: true
-          schema:
-            type: integer
-
         - name: include_fields
           in: query
           description: 'Fields to include, in a comma-separated list. The ID and the specified fields will be returned.'
@@ -5982,13 +5844,6 @@ paths:
       operationId: updateProductReview
       parameters:
         - $ref: '#/components/parameters/ContentType'
-        - name: review_id
-          in: path
-          description: |
-            The ID of the `review` that is being operated on.
-          required: true
-          schema:
-            type: integer
       requestBody:
         description: |
           A BigCommerce `ProductReview` object.
@@ -6155,14 +6010,6 @@ paths:
       summary: Delete a Product Review
       description: Deletes a *Product Review*.
       operationId: deleteProductReview
-      parameters:
-        - name: review_id
-          in: path
-          description: |
-            The ID of the `review` that is being operated on.
-          required: true
-          schema:
-            type: integer
       responses:
         '204':
           description: ''
@@ -7008,7 +6855,7 @@ components:
         image_file:
           type: string
           description: |
-            The local path to the original image file uploaded to BigCommerce. Limit of 8MB per file.
+            The local path to the original image file uploaded to BigCommerce. Limit of 8 MB per file.
         is_thumbnail:
           type: boolean
           description: |
